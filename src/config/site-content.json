@@ -46,7 +46,7 @@
 		}
 	],
 	"clockShowSeconds": false,
-	"summaryInContent": false,
+	"summaryInContent": true,
 	"isCachePem": true,
 	"hideEditButton": false,
 	"enableCategories": true,
