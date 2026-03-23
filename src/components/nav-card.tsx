@@ -28,13 +28,13 @@ const list = [
 	{
 		icon: WebsiteOutlineSVG,
 		iconActive: WebsiteFilledSVG,
-		label: '宝藏软件',
+		label: '出海软件',
 		href: '/Soft'
 	},
 	{
 		icon: ProjectsOutlineSVG,
 		iconActive: ProjectsFilledSVG,
-		label: '精品游戏',
+		label: '软件教程',
 		href: '/Games'
 	},
 	{
