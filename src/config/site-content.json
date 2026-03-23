@@ -38,11 +38,11 @@
 	"currentBackgroundImageId": "",
 	"socialButtons": [
 		{
-			"id": "juejin",
+			"id": "button-1774280122122",
 			"type": "qq",
-			"value": "https://qm.qq.com/q/u4W1InEVYA",
-			"label": "稀土掘金",
-			"order": 2
+			"value": "/images/social-buttons/b10c565b80f08df2.jpg",
+			"label": "",
+			"order": 1
 		}
 	],
 	"clockShowSeconds": false,
