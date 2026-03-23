@@ -38,13 +38,6 @@
 	"currentBackgroundImageId": "",
 	"socialButtons": [
 		{
-			"id": "button-1774280122122",
-			"type": "qq",
-			"value": "/images/social-buttons/b10c565b80f08df2.jpg",
-			"label": "",
-			"order": 1
-		},
-		{
 			"id": "button-1774280251299",
 			"type": "tg",
 			"value": "https://t.me/Ash6088",
@@ -55,6 +48,13 @@
 			"id": "button-1774280333225",
 			"type": "wechat",
 			"value": "sevencyhi",
+			"label": "",
+			"order": 3
+		},
+		{
+			"id": "button-1774280671904",
+			"type": "qq",
+			"value": "1226407713",
 			"label": "",
 			"order": 3
 		}
