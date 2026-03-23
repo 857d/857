@@ -43,6 +43,13 @@
 			"value": "/images/social-buttons/b10c565b80f08df2.jpg",
 			"label": "",
 			"order": 1
+		},
+		{
+			"id": "button-1774280170184",
+			"type": "x",
+			"value": "@Ash6088",
+			"label": "",
+			"order": 2
 		}
 	],
 	"clockShowSeconds": false,
