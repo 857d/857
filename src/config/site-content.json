@@ -50,6 +50,13 @@
 			"value": "@Ash6088",
 			"label": "",
 			"order": 2
+		},
+		{
+			"id": "button-1774280333225",
+			"type": "wechat",
+			"value": "sevencyhi",
+			"label": "",
+			"order": 3
 		}
 	],
 	"clockShowSeconds": false,
