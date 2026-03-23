@@ -38,25 +38,11 @@
 	"currentBackgroundImageId": "",
 	"socialButtons": [
 		{
-			"id": "github",
-			"type": "github",
-			"value": "https://github.com/RT622",
-			"label": "Github",
-			"order": 3
-		},
-		{
 			"id": "juejin",
 			"type": "qq",
-			"value": "/images/social-buttons/7f509f0a4c020a31.png",
+			"value": "1226407713",
 			"label": "稀土掘金",
 			"order": 2
-		},
-		{
-			"id": "email",
-			"type": "email",
-			"value": "Twodog@88.com",
-			"label": "",
-			"order": 1
 		}
 	],
 	"clockShowSeconds": false,
