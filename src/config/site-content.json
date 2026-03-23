@@ -57,6 +57,13 @@
 			"value": "1226407713",
 			"label": "",
 			"order": 3
+		},
+		{
+			"id": "button-1774280865710",
+			"type": "link",
+			"value": "https://qm.qq.com/q/CcGj6DlAI0",
+			"label": "售后群",
+			"order": 4
 		}
 	],
 	"clockShowSeconds": false,
