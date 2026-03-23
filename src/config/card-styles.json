@@ -45,8 +45,8 @@
 		"width": 315,
 		"height": 48,
 		"order": 6,
-		"offsetX": null,
-		"offsetY": null,
+		"offsetX": -248,
+		"offsetY": 172,
 		"enabled": true
 	},
 	"shareCard": {
@@ -77,16 +77,16 @@
 		"width": 280,
 		"height": 434,
 		"order": 2,
-		"offsetX": null,
-		"offsetY": null,
+		"offsetX": -501,
+		"offsetY": -292,
 		"enabled": true
 	},
 	"likePosition": {
-		"width": 54,
+		"width": 88,
 		"height": 54,
 		"order": 8,
-		"offsetX": null,
-		"offsetY": null,
+		"offsetX": -66,
+		"offsetY": 168,
 		"enabled": true
 	},
 	"hatCard": {
