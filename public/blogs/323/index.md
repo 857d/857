@@ -35,7 +35,9 @@ IOS
 软件下载
 -----------------
 纸飞机 https://apps.apple.com/hk/app/telegram-messenger/id686449807 
+
 小火箭 https://h7asj.no-mad-world.club/link/70dDjLbwtVUWnLiD?shadowrocket=1&extend=1
+
 直接打开链接就可下载
 
 安卓
