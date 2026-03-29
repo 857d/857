@@ -28,25 +28,25 @@ const list = [
 	{
 		icon: WebsiteOutlineSVG,
 		iconActive: WebsiteFilledSVG,
-		label: '出海软件',
+		label: '还不知道放啥',
 		href: '/Soft'
 	},
 	{
 		icon: ProjectsOutlineSVG,
 		iconActive: ProjectsFilledSVG,
-		label: '软件教程',
+		label: '还不知道放啥',
 		href: '/Games'
 	},
 	{
 		icon: AboutOutlineSVG,
 		iconActive: AboutFilledSVG,
-		label: '人物卡片',
+		label: '还不知道放啥',
 		href: '/Chara'
 	},
 	{
 		icon: ShareOutlineSVG,
 		iconActive: ShareFilledSVG,
-		label: '折腾笔记',
+		label: '各种教程',
 		href: '/Notes'
 	},
 	{
