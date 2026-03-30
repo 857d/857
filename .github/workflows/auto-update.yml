@@ -11,28 +11,26 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ github.token }}
 
       - name: Generate password 1-9999
         run: echo "PWD=$((RANDOM%9999+1))" >> $GITHUB_ENV
 
-      - name: Write to JSON
+      - name: Update password JSON
         run: |
-          cat > blogs/2026tiktok.json << EOF
-          {
-            "title": "2026TikTok免拔卡就能刷国际版抖音视频规则和方法（苹果和安卓通用）",
-            "tags": [],
-            "date": "2026-03-26T20:39",
-            "summary": "",
-            "cover": "/blogs/2026tiktok/220f6df697cd08c0.png",
-            "hidden": false,
-            "category": "笔记",
-            "downloadLinks": [],
-            "passwordProtected": true,
-            "password": "${{ env.PWD }}"
-          }
-          EOF
+          cat > public/blogs/2026tiktok/post_config.json <<'EOF'
+{
+  "title": "2026TikTok免拔卡就能刷国际版抖音视频规则和方法（苹果和安卓通用）",
+  "tags": [],
+  "date": "2026-03-26T20:39",
+  "summary": "",
+  "cover": "/blogs/2026tiktok/220f6df697cd08c0.png",
+  "hidden": false,
+  "category": "笔记",
+  "downloadLinks": [],
+  "passwordProtected": true,
+  "password": "${{ env.PWD }}"
+}
+EOF
 
       - name: Commit and push
         run: |
