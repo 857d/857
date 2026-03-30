@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate password 1-9999
-        run: echo "PWD=$((RANDOM%9999+1))" >> $GITHUB_ENV
+        run: echo "PWD=$((RANDOM%9999+1))" >> $GITHOM_ENV
 
       - name: Update password JSON
         run: |
