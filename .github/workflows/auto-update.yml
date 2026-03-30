@@ -1,25 +1,27 @@
-name: 24小时自动更新密码
+name: 自动更新密码
 on:
-  schedule:
-    - cron: '0 0 * * *'
   workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * *'
 
 jobs:
-  update:
+  run:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: 拉取代码
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-      - name: 生成随机密码 (1-9999)
+      - name: 生成密码
         run: |
-          NEW_PWD=$((1 + RANDOM % 9999))
-          echo "新密码：$NEW_PWD"
+          NEW_PWD=$(( RANDOM % 9999 + 1 ))
+          echo "NEW_PWD=$NEW_PWD" >> $GITHUB_ENV
 
-      - name: 直接修改 JSON 文件
+      - name: 更新 JSON
         run: |
-          NEW_PWD=$((1 + RANDOM % 9999))
-          cat > blogs/2026tiktok.json <<EOF
+          cat > blogs/2026tiktok.json << EOF
           {
             "title": "2026TikTok免拔卡就能刷国际版抖音视频规则和方法（苹果和安卓通用）",
             "tags": [],
@@ -30,14 +32,14 @@ jobs:
             "category": "笔记",
             "downloadLinks": [],
             "passwordProtected": true,
-            "password": "$NEW_PWD"
+            "password": "${{ env.NEW_PWD }}"
           }
           EOF
 
-      - name: 提交更新
+      - name: 提交更改
         run: |
-          git config --global user.name "auto"
-          git config --global user.email "auto@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "✅ 自动更新每日密码：$NEW_PWD"
+          git commit -m "自动更新密码为 ${{ env.NEW_PWD }}"
           git push
