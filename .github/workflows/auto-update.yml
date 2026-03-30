@@ -2,7 +2,7 @@ name: UpdatePassword
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 8 * * *'
 
 jobs:
   update:
@@ -15,17 +15,16 @@ jobs:
       - name: Generate password
         run: echo "PWD=$((RANDOM%9999+1))" >> $GITHUB_ENV
 
-      - name: Update password in JSON
+      - name: Set git identity
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Only update password
         run: |
           PWD="${{ env.PWD }}"
           FILE="public/blogs/2026tiktok/post_config.json"
-          echo $PWD
-          echo $FILE
-
-      - name: Push change
-        run: |
-          git config --global user.name "bot"
-          git config --global user.email "bot@example.com"
-          git add .
-          git commit -m "Update password"
+          sed -i "s/\"password\": \"[0-9]*\"/\"password\": \"$PWD\"/" "$FILE"
+          git add "$FILE"
+          git commit -m "密码已更新：$PWD" || echo "无变化，跳过提交"
           git push
