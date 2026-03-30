@@ -1,41 +1,29 @@
-name: Auto Update Password
+name: Fix Password
 on:
   workflow_dispatch:
   schedule:
     - cron: '0 8 * * *'
 
 jobs:
-  run:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate password 1-9999
-        run: echo "PWD=$((RANDOM%9999+1))" >> $GITHOM_ENV
-
-      - name: Update password JSON
+      - name: Set new password
         run: |
-          cat > public/blogs/2026tiktok/post_config.json <<'EOF'
-{
-  "title": "2026TikTok免拔卡就能刷国际版抖音视频规则和方法（苹果和安卓通用）",
-  "tags": [],
-  "date": "2026-03-26T20:39",
-  "summary": "",
-  "cover": "/blogs/2026tiktok/220f6df697cd08c0.png",
-  "hidden": false,
-  "category": "笔记",
-  "downloadLinks": [],
-  "passwordProtected": true,
-  "password": "${{ env.PWD }}"
-}
-EOF
+          PWD=$((RANDOM % 9999 + 1))
+          echo "NEW_PWD=$PWD" >> $GITHUB_ENV
 
-      - name: Commit and push
+      - name: Only change password line
+        run: sed -i 's/"password": "[0-9]*"/"password": "'"${NEW_PWD}"'"/g' public/blogs/2026tiktok/post_config.json
+
+      - name: Push changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Auto update password: ${{ env.PWD }}"
+          git config --global user.name "bot"
+          git config --global user.email "bot@github.com"
+          git add public/blogs/2026tiktok/post_config.json
+          git commit -m "Update password"
           git push
