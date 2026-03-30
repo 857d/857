@@ -1,4 +1,4 @@
-name: 自动更新密码
+name: update-pwd
 on:
   workflow_dispatch:
   schedule:
@@ -11,13 +11,17 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
 
-      - name: 生成 1-9999 随机密码
-        run: echo "NEW_PWD=$((RANDOM%9999+1))" >> $GITHUB_ENV
-
-      - name: 直接正确覆盖 JSON 文件
+      - name: 生成密码
         run: |
-          cat > blogs/2026tiktok.json <<'EOF'
+          PWD=$(echo $((RANDOM%9999+1)))
+          echo "PWD=$PWD" >> $GITHUB_ENV
+
+      - name: 修改JSON密码
+        run: |
+          cat > blogs/2026tiktok.json <<EOF
 {
   "title": "2026TikTok免拔卡就能刷国际版抖音视频规则和方法（苹果和安卓通用）",
   "tags": [],
@@ -28,14 +32,14 @@ jobs:
   "category": "笔记",
   "downloadLinks": [],
   "passwordProtected": true,
-  "password": "${{ env.NEW_PWD }}"
+  "password": "$PWD"
 }
 EOF
 
-      - name: 提交到仓库
+      - name: 提交
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add blogs/2026tiktok.json
-          git commit -m "更新密码：${{ env.NEW_PWD }}"
+          git config --global user.name "bot"
+          git config --global user.email "bot@github.com"
+          git add .
+          git commit -m "密码 $PWD"
           git push
