@@ -9,22 +9,22 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # 关掉Node.js警告
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate password
+      - name: 生成密码 1-9999
         run: echo "PWD=$((RANDOM%9999+1))" >> $GITHUB_ENV
 
-      - name: Set git identity
+      - name: 修改密码
+        run: |
+          sed -i "s/\"password\": \".*\"/\"password\": \"${{ env.PWD }}\"/" public/blogs/2026tiktok/post_config.json
+
+      - name: 提交更新
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Only update password
-        run: |
-          PWD="${{ env.PWD }}"
-          FILE="public/blogs/2026tiktok/post_config.json"
-          sed -i "s/\"password\": \"[0-9]*\"/\"password\": \"$PWD\"/" "$FILE"
-          git add "$FILE"
-          git commit -m "密码已更新：$PWD" || echo "无变化，跳过提交"
+          git add .
+          git commit -m "更新密码：${{ env.PWD }}" || true
           git push
