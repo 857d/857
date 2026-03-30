@@ -64,6 +64,13 @@
 			"value": "https://qm.qq.com/q/CcGj6DlAI0",
 			"label": "售后群",
 			"order": 4
+		},
+		{
+			"id": "button-1774853952204",
+			"type": "link",
+			"value": "点击链接加入群聊【好大一个肥鸡✈️】：https://qm.qq.com/q/nSynk8DaCs",
+			"label": "买号群",
+			"order": 5
 		}
 	],
 	"clockShowSeconds": false,
