@@ -1,27 +1,42 @@
 name: 24小时自动更新密码
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天北京时间 08:00 自动更新
-  workflow_dispatch:  # 允许手动点一下测试
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
-  update-password:
+  update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: 使用 Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: 运行密码更新脚本
-        run: node update-password.js
-
-      - name: 提交到 GitHub
+      - name: 更新密码
         run: |
-          git config --global user.name "Auto Bot"
+          NEW_PWD=$(echo $((RANDOM % 9999 + 1)))
+          echo "新密码：$NEW_PWD"
+
+          cat > blogs/2026tiktok.json <<EOF
+          {
+            "title": "2026TikTok免拔卡就能刷国际版抖音视频规则和方法（苹果和安卓通用）",
+            "tags": [],
+            "date": "2026-03-26T20:39",
+            "summary": "",
+            "cover": "/blogs/2026tiktok/220f6df697cd08c0.png",
+            "hidden": false,
+            "category": "笔记",
+            "downloadLinks": [],
+            "passwordProtected": true,
+            "password": "$NEW_PWD"
+          }
+          EOF
+
+      - name: 提交
+        run: |
+          git config --global user.name "bot"
           git config --global user.email "bot@github.com"
           git add .
-          git commit -m "🔐 自动更新每日密码 $(date +'%Y-%m-%d')"
+          git commit -m "每日密码更新：$NEW_PWD"
           git push
