@@ -1,29 +1,10 @@
-name: Fix Password
+name: UpdatePassword
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 8 * * *'
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set new password
-        run: |
-          PWD=$((RANDOM % 9999 + 1))
-          echo "NEW_PWD=$PWD" >> $GITHUB_ENV
-
-      - name: Only change password line
-        run: sed -i 's/"password": "[0-9]*"/"password": "'"${NEW_PWD}"'"/g' public/blogs/2026tiktok/post_config.json
-
-      - name: Push changes
-        run: |
-          git config --global user.name "bot"
-          git config --global user.email "bot@github.com"
-          git add public/blogs/2026tiktok/post_config.json
-          git commit -m "Update password"
-          git push
+      - name: Success
+        run: echo "运行成功！"
