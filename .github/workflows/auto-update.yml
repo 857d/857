@@ -8,16 +8,17 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - name: 拉取代码
+        uses: actions/checkout@v4
 
-      - name: 更新密码
+      - name: 生成随机密码 (1-9999)
         run: |
-          NEW_PWD=$(echo $((RANDOM % 9999 + 1)))
+          NEW_PWD=$((1 + RANDOM % 9999))
           echo "新密码：$NEW_PWD"
 
+      - name: 直接修改 JSON 文件
+        run: |
+          NEW_PWD=$((1 + RANDOM % 9999))
           cat > blogs/2026tiktok.json <<EOF
           {
             "title": "2026TikTok免拔卡就能刷国际版抖音视频规则和方法（苹果和安卓通用）",
@@ -33,10 +34,10 @@ jobs:
           }
           EOF
 
-      - name: 提交
+      - name: 提交更新
         run: |
-          git config --global user.name "bot"
-          git config --global user.email "bot@github.com"
+          git config --global user.name "auto"
+          git config --global user.email "auto@github.com"
           git add .
-          git commit -m "每日密码更新：$NEW_PWD"
+          git commit -m "✅ 自动更新每日密码：$NEW_PWD"
           git push
