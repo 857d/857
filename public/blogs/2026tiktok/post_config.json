@@ -8,6 +8,5 @@
   "category": "笔记",
   "downloadLinks": [],
   "passwordProtected": true,
-  "autoUpdate": true,          // 新增字段，表示该文章需要自动更新密码
   "password": "445077"
 }
