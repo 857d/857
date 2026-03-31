@@ -2,7 +2,7 @@
 	"meta": {
 		"title": "[857日志]",
 		"description": "857的个人博客，发布一些日常收集来的软件、游戏，还有一些乱七八糟瞎折腾的研究笔记教程之类的。",
-		"username": "Ciao"
+		"username": "857"
 	},
 	"theme": {
 		"colorBrand": "#35bfab",
@@ -38,22 +38,43 @@
 	"currentBackgroundImageId": "",
 	"socialButtons": [
 		{
-			"id": "juejin",
+			"id": "button-1774280251299",
+			"type": "tg",
+			"value": "https://t.me/Ash6088",
+			"label": "",
+			"order": 2
+		},
+		{
+			"id": "button-1774280333225",
+			"type": "wechat",
+			"value": "sevencyhi",
+			"label": "",
+			"order": 3
+		},
+		{
+			"id": "button-1774280671904",
 			"type": "qq",
 			"value": "1226407713",
-			"label": "稀土掘金",
-			"order": 2
+			"label": "",
+			"order": 3
+		},
+		{
+			"id": "button-1774280865710",
+			"type": "link",
+			"value": "https://qm.qq.com/q/CcGj6DlAI0",
+			"label": "售后群",
+			"order": 4
 		}
 	],
 	"clockShowSeconds": false,
 	"summaryInContent": true,
 	"isCachePem": true,
-	"hideEditButton": true,
+	"hideEditButton": false,
 	"enableCategories": true,
 	"currentHatIndex": 3,
 	"hatFlipped": false,
 	"enableChristmas": true,
-	"enablePasswordAccess": false,
+	"enablePasswordAccess": true,
 	"passwordAccessCategories": [
 		"Chara",
 		"Games",

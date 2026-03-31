@@ -55,7 +55,7 @@
 		"order": 7,
 		"offsetX": null,
 		"offsetY": null,
-		"enabled": true
+		"enabled": false
 	},
 	"articleCard": {
 		"width": 266,
@@ -63,7 +63,7 @@
 		"order": 8,
 		"offsetX": null,
 		"offsetY": null,
-		"enabled": true
+		"enabled": false
 	},
 	"writeButtons": {
 		"height": 42,
@@ -85,8 +85,8 @@
 		"width": 88,
 		"height": 54,
 		"order": 8,
-		"offsetX": -66,
-		"offsetY": 168,
+		"offsetX": 9,
+		"offsetY": 273,
 		"enabled": true
 	},
 	"hatCard": {
