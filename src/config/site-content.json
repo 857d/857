@@ -40,7 +40,7 @@
 		{
 			"id": "button-1774280251299",
 			"type": "tg",
-			"value": "https://t.me/Ash6088",
+			"value": "https://t.me/Ash662",
 			"label": "",
 			"order": 2
 		},
@@ -64,17 +64,24 @@
 			"value": "https://qm.qq.com/q/CcGj6DlAI0",
 			"label": "售后群",
 			"order": 4
+		},
+		{
+			"id": "button-1774853952204",
+			"type": "link",
+			"value": "点击链接加入群聊【好大一个肥鸡✈️】：https://qm.qq.com/q/nSynk8DaCs",
+			"label": "买号群",
+			"order": 5
 		}
 	],
 	"clockShowSeconds": false,
 	"summaryInContent": true,
 	"isCachePem": true,
-	"hideEditButton": false,
+	"hideEditButton": true,
 	"enableCategories": true,
 	"currentHatIndex": 3,
 	"hatFlipped": false,
 	"enableChristmas": true,
-	"enablePasswordAccess": true,
+	"enablePasswordAccess": false,
 	"passwordAccessCategories": [
 		"Chara",
 		"Games",
