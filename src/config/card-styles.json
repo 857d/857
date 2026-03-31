@@ -45,8 +45,8 @@
 		"width": 315,
 		"height": 48,
 		"order": 6,
-		"offsetX": -146,
-		"offsetY": 162,
+		"offsetX": -248,
+		"offsetY": 172,
 		"enabled": true
 	},
 	"shareCard": {
@@ -55,7 +55,7 @@
 		"order": 7,
 		"offsetX": null,
 		"offsetY": null,
-		"enabled": false
+		"enabled": true
 	},
 	"articleCard": {
 		"width": 266,
@@ -63,7 +63,7 @@
 		"order": 8,
 		"offsetX": null,
 		"offsetY": null,
-		"enabled": false
+		"enabled": true
 	},
 	"writeButtons": {
 		"height": 42,
@@ -85,8 +85,8 @@
 		"width": 88,
 		"height": 54,
 		"order": 8,
-		"offsetX": -29,
-		"offsetY": 270,
+		"offsetX": -66,
+		"offsetY": 168,
 		"enabled": true
 	},
 	"hatCard": {

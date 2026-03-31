@@ -2,7 +2,7 @@
 	"meta": {
 		"title": "[857日志]",
 		"description": "857的个人博客，发布一些日常收集来的软件、游戏，还有一些乱七八糟瞎折腾的研究笔记教程之类的。",
-		"username": "857"
+		"username": "Ciao"
 	},
 	"theme": {
 		"colorBrand": "#35bfab",
@@ -38,39 +38,11 @@
 	"currentBackgroundImageId": "",
 	"socialButtons": [
 		{
-			"id": "button-1774280251299",
-			"type": "tg",
-			"value": "https://t.me/Ash662",
-			"label": "",
-			"order": 2
-		},
-		{
-			"id": "button-1774280333225",
-			"type": "wechat",
-			"value": "sevencyhi",
-			"label": "",
-			"order": 3
-		},
-		{
-			"id": "button-1774280671904",
+			"id": "juejin",
 			"type": "qq",
 			"value": "1226407713",
-			"label": "",
-			"order": 3
-		},
-		{
-			"id": "button-1774280865710",
-			"type": "link",
-			"value": "https://qm.qq.com/q/CcGj6DlAI0",
-			"label": "售后群",
-			"order": 4
-		},
-		{
-			"id": "button-1774853952204",
-			"type": "link",
-			"value": "点击链接加入群聊【好大一个肥鸡✈️】：https://qm.qq.com/q/nSynk8DaCs",
-			"label": "买号群",
-			"order": 5
+			"label": "稀土掘金",
+			"order": 2
 		}
 	],
 	"clockShowSeconds": false,
