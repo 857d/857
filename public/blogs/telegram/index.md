@@ -80,7 +80,7 @@
 
 **第三方飞机登录**的用户直接设置里修改中文即可。
 
-**中文包https://t.me/setlanguage/zh-hans-raw 「打开自动跳转」**
+**中文包https://t.me/setlanguage/zh-hans-beta 「打开自动跳转」**
 
 **群主飞机：https://t.me/Ash662 「打开自动跳转」**
 
