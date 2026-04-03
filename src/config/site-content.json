@@ -71,6 +71,13 @@
 			"value": "点击链接加入群聊【好大一个肥鸡✈️】：https://qm.qq.com/q/nSynk8DaCs",
 			"label": "买号群",
 			"order": 5
+		},
+		{
+			"id": "button-1775220579368",
+			"type": "link",
+			"value": "https://t.me/+IAPTjgYdMaEyN2Ux",
+			"label": "飞机频道",
+			"order": 6
 		}
 	],
 	"clockShowSeconds": false,
