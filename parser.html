@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>账号信息解析器 - 自动添加标签</title>
+    <title>账号字符串解析器 - 自动添加标签</title>
     <style>
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, monospace;
+            font-family: system-ui, -apple-system, 'Segoe UI', monospace;
             max-width: 900px;
             margin: 40px auto;
             padding: 20px;
@@ -71,11 +72,17 @@
             margin: 16px 0;
             border-color: #e2e8f0;
         }
+        code {
+            background: #eef2ff;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
 <div class="card">
-    <h2>🔐 账号信息解析工具</h2>
+    <h2>🔐 账号字符串解析工具</h2>
     <p>输入格式：<br>
     <code>账号----密码----验证邮箱----邮箱密码|辅邮|辅邮密码----2fa----token</code><br>
     示例：<br>
@@ -86,64 +93,44 @@
 </div>
 
 <div class="card">
-    <h2>📋 解析结果</h2>
+    <h2>📋 带标签的结果</h2>
     <div id="outputArea" class="output">等待解析...</div>
 </div>
 
 <script>
-    const labels = [
-        "账号", "密码", "验证邮箱",
-        "邮箱密码", "辅邮", "辅邮密码",
-        "2fa", "token"
-    ];
+    // 固定的标签顺序
+    const labels = ["账号", "密码", "验证邮箱", "邮箱密码", "辅邮", "辅邮密码", "2fa", "token"];
 
-    function parseAndFormat(rawString) {
-        // 1. 按 "----" 分割主字段
+    function parseAndAddLabels(rawString) {
+        // 1. 按 "----" 分割主段
         const parts = rawString.split("----");
-        if (parts.length !== 6 && parts.length !== 7) {
-            // 根据实际，示例是6个----得到7段，但按照用户描述应该是6个----？我们兼容7段
-            // 实际上示例字符串有6个----，得到7个部分
-            // 但用户标签有8个，所以第4部分需要拆分为3个
-            if (parts.length !== 7) {
-                throw new Error(`主字段数量错误：期望7段（用6个----分隔），实际得到${parts.length}段`);
-            }
-        }
-        // 确保有7段
         if (parts.length !== 7) {
-            throw new Error(`主字段数量错误：期望7段，实际${parts.length}段`);
+            throw new Error(`主字段数量错误：期望7段（用6个----分隔），实际得到${parts.length}段`);
         }
 
-        // 2. 第4段（索引3）按 "|" 拆分为3个子段：邮箱密码、辅邮、辅邮密码
+        // 2. 第4段（索引3）按 "|" 拆分成3个：邮箱密码、辅邮、辅邮密码
         const fourthPart = parts[3];
         const subParts = fourthPart.split("|");
         if (subParts.length !== 3) {
             throw new Error(`第4段（邮箱密码|辅邮|辅邮密码）必须包含3个由 | 分隔的值，实际得到${subParts.length}个`);
         }
 
-        // 3. 构建8个字段数组
+        // 3. 组装8个字段
         const fields = [
-            parts[0],               // 账号
-            parts[1],               // 密码
-            parts[2],               // 验证邮箱
-            subParts[0],            // 邮箱密码
-            subParts[1],            // 辅邮
-            subParts[2],            // 辅邮密码
-            parts[4],               // 2fa (第5段)
-            parts[5]                // token (第6段)
+            parts[0],       // 账号
+            parts[1],       // 密码
+            parts[2],       // 验证邮箱
+            subParts[0],    // 邮箱密码
+            subParts[1],    // 辅邮
+            subParts[2],    // 辅邮密码
+            parts[4],       // 2fa
+            parts[5]        // token
         ];
 
-        // 4. 构建输出文本（每行一个标签: 值）
-        let outputLines = [];
-        for (let i = 0; i < labels.length; i++) {
-            outputLines.push(`${labels[i]}：${fields[i]}`);
-        }
-        // 同时生成一行带分隔符的紧凑格式（可选）
-        const compact = fields.map((v, idx) => `${labels[idx]}:${v}`).join(' ---- ');
-
-        return {
-            lines: outputLines.join('\n'),
-            compact: compact
-        };
+        // 4. 生成带标签的字符串，用 "----" 连接
+        const labeledParts = labels.map((label, idx) => `${label}：${fields[idx]}`);
+        const result = labeledParts.join("----");
+        return result;
     }
 
     function renderResult() {
@@ -156,15 +143,24 @@
         }
 
         try {
-            const result = parseAndFormat(raw);
+            const labeled = parseAndAddLabels(raw);
             outputDiv.innerHTML = `
-                <div style="margin-bottom: 12px;"><span class="label">📄 分行显示：</span></div>
-                <pre style="margin:0; font-family:monospace;">${escapeHtml(result.lines)}</pre>
-                <hr>
-                <div><span class="label">🔗 紧凑格式（可复制）：</span></div>
-                <pre style="margin:0; font-family:monospace; background:#eef2ff; padding:8px; border-radius:8px;">${escapeHtml(result.compact)}</pre>
+                <div><span class="label">✅ 解析成功：</span></div>
+                <pre style="margin:8px 0 0; background:#eef2ff; padding:12px; border-radius:12px; overflow-x:auto;">${escapeHtml(labeled)}</pre>
+                <button id="copyBtn" style="margin-top:12px; background:#10b981; padding:6px 16px;">📋 复制结果</button>
             `;
             outputDiv.classList.remove('error');
+
+            // 绑定复制按钮事件（动态生成）
+            const copyBtn = document.getElementById('copyBtn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(labeled).then(() => {
+                        copyBtn.textContent = '✅ 已复制';
+                        setTimeout(() => copyBtn.textContent = '📋 复制结果', 1500);
+                    }).catch(() => alert('复制失败，请手动复制'));
+                });
+            }
         } catch (err) {
             outputDiv.innerHTML = `<span style="color:#dc2626;">❌ 解析错误：${escapeHtml(err.message)}</span>`;
             outputDiv.classList.add('error');
@@ -181,7 +177,7 @@
     }
 
     document.getElementById('parseBtn').addEventListener('click', renderResult);
-    // 示例预填充（方便测试）
+    // 预置示例
     const example = "AmitDas26352060----Udba!qNhTlp9----SimoneRauda71@hotmail.com----ol4tfH58|ED0my54q@wmhotmail.com|VcnM7H----J3DDXZXN24J6PZRU----0e58013a1bce2de313958d31320010aad0e4b2eb";
     document.getElementById('inputText').value = example;
     renderResult(); // 自动解析一次
