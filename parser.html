@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>账号字符串解析器 - 自动添加标签</title>
+    <title>账号字符串解析器 - 自动识别多格式</title>
     <style>
-        /* 样式同上，略... */
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', monospace;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 40px auto;
             padding: 20px;
             background: #f1f5f9;
@@ -22,6 +21,14 @@
             margin-bottom: 24px;
         }
         h2 { margin-top: 0; color: #0f172a; }
+        .detected-format {
+            background: #e0f2fe;
+            border-radius: 12px;
+            padding: 8px 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #0369a1;
+        }
         textarea {
             width: 100%;
             padding: 12px;
@@ -66,20 +73,32 @@
         .label { font-weight: bold; color: #1e293b; }
         hr { margin: 16px 0; border-color: #e2e8f0; }
         code { background: #eef2ff; padding: 2px 6px; border-radius: 8px; font-size: 0.9em; }
+        .format-hint {
+            font-size: 12px;
+            color: #475569;
+            margin-top: 8px;
+            background: #f8fafc;
+            padding: 8px;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
 <div class="card">
-    <h2>🔐 账号字符串解析工具</h2>
-    <p>输入格式（用 <code>----</code> 分隔，其中第4段内部用 <code>|</code> 分隔三个值）：<br>
-    <code>账号----密码----验证邮箱----邮箱密码|辅邮|辅邮密码----2fa----token</code><br>
-    示例：<br>
-    <code>AmitDas26352060----Udba!qNhTlp9----SimoneRauda71@hotmail.com----ol4tfH58|ED0my54q@wmhotmail.com|VcnM7H----J3DDXZXN24J6PZRU----0e58013a1bce2de313958d31320010aad0e4b2eb</code>
-    </p>
-    <textarea id="inputText" rows="4" placeholder="粘贴上面的字符串..."></textarea>
+    <h2>🔐 账号字符串解析器（自动识别多格式）</h2>
+    <div class="detected-format" id="detectedFormat">⚙️ 等待输入...</div>
+    <textarea id="inputText" rows="4" placeholder="粘贴任意支持的字符串..."></textarea>
     <div class="button-group">
         <button id="parseBtn">解析并添加标签</button>
         <button id="clearBtn" class="clear-btn">🗑️ 清除输入框</button>
+    </div>
+    <div class="format-hint">
+        📌 支持的格式（自动识别）：<br>
+        • 格式A（5段横线）：<code>tiktok账号----tiktok密码----2FA----邮箱账号----邮箱密码</code><br>
+        • 格式B（6段横线，第4段内含|）：<code>账号----密码----验证邮箱----邮箱密码|辅邮|辅邮密码----2fa----token</code><br>
+        • 格式C（8段竖线）：<code>账号|密码|验证邮箱|邮箱密码|辅邮|辅邮密码|2fa|token</code><br>
+        • 格式D（7段竖线）：<code>用户名|密码|邮箱|邮箱密码|2FA|创建时间|令牌</code><br>
+        • 格式E（4段横线）：<code>账号----密码----邮箱----邮箱密码</code>
     </div>
 </div>
 
@@ -89,52 +108,131 @@
 </div>
 
 <script>
-    const labels = ["账号", "密码", "验证邮箱", "邮箱密码", "辅邮", "辅邮密码", "2fa", "token"];
+    // 定义各格式的标签
+    const labelsFormatA = ["tiktok账号", "tiktok密码", "2FA", "邮箱账号", "邮箱密码"];
+    const labelsFormatB = ["账号", "密码", "验证邮箱", "邮箱密码", "辅邮", "辅邮密码", "2fa", "token"];
+    const labelsFormatC = ["账号", "密码", "验证邮箱", "邮箱密码", "辅邮", "辅邮密码", "2fa", "token"];
+    const labelsFormatD = ["用户名", "密码", "邮箱", "邮箱密码", "2FA", "创建时间", "令牌"];
+    const labelsFormatE = ["账号", "密码", "邮箱", "邮箱密码"];  // 新增4段横线格式
 
-    function parseAndAddLabels(rawString) {
-        const parts = rawString.split("----");
+    // 格式E解析：4段纯横线
+    function parseFormatE(raw) {
+        const parts = raw.split("----");
+        if (parts.length !== 4) {
+            throw new Error(`格式E需要4段（3个----），实际${parts.length}段`);
+        }
+        return parts;
+    }
+
+    // 格式A解析：5段纯横线
+    function parseFormatA(raw) {
+        const parts = raw.split("----");
+        if (parts.length !== 5) {
+            throw new Error(`格式A需要5段（4个----），实际${parts.length}段`);
+        }
+        return parts;
+    }
+
+    // 格式B解析：6段，第4段内用|分3个值
+    function parseFormatB(raw) {
+        const parts = raw.split("----");
         if (parts.length !== 6) {
-            throw new Error(`主字段数量错误：期望6段（用5个----分隔），实际得到${parts.length}段`);
+            throw new Error(`格式B需要6段（5个----），实际${parts.length}段`);
         }
         const subParts = parts[3].split("|");
         if (subParts.length !== 3) {
-            throw new Error(`第4段（邮箱密码|辅邮|辅邮密码）必须包含3个由 | 分隔的值，实际得到${subParts.length}个`);
+            throw new Error(`格式B的第4段必须包含3个由|分隔的值，实际${subParts.length}个`);
         }
-        const fields = [
+        return [
             parts[0], parts[1], parts[2],
             subParts[0], subParts[1], subParts[2],
             parts[4], parts[5]
         ];
-        const labeledParts = labels.map((label, idx) => `${label}：${fields[idx]}`);
-        return labeledParts.join("----");
+    }
+
+    // 格式C解析：8段竖线
+    function parseFormatC(raw) {
+        const parts = raw.split("|");
+        if (parts.length !== 8) {
+            throw new Error(`格式C需要8段（7个|），实际${parts.length}段`);
+        }
+        return parts;
+    }
+
+    // 格式D解析：7段竖线
+    function parseFormatD(raw) {
+        const parts = raw.split("|");
+        if (parts.length !== 7) {
+            throw new Error(`格式D需要7段（6个|），实际${parts.length}段`);
+        }
+        return parts;
+    }
+
+    // 自动检测并解析
+    function autoParse(raw) {
+        // 优先检测是否包含 "----"
+        if (raw.includes("----")) {
+            const parts = raw.split("----");
+            const len = parts.length;
+            if (len === 4) {
+                const fields = parseFormatE(raw);
+                return { fields, formatName: "格式E（4段横线：账号/密码/邮箱/邮箱密码）", labels: labelsFormatE };
+            } else if (len === 5) {
+                const fields = parseFormatA(raw);
+                return { fields, formatName: "格式A（5段横线：tiktok账号/密码/2FA/邮箱账号/邮箱密码）", labels: labelsFormatA };
+            } else if (len === 6) {
+                const fields = parseFormatB(raw);
+                return { fields, formatName: "格式B（6段横线，嵌套竖线）", labels: labelsFormatB };
+            } else {
+                throw new Error(`包含"----"但段数为${len}，期望4段、5段或6段`);
+            }
+        }
+        
+        // 否则按 "|" 分割，根据段数判断
+        const parts = raw.split("|");
+        if (parts.length === 8) {
+            const fields = parseFormatC(raw);
+            return { fields, formatName: "格式C（8段竖线）", labels: labelsFormatC };
+        } else if (parts.length === 7) {
+            const fields = parseFormatD(raw);
+            return { fields, formatName: "格式D（7段竖线）", labels: labelsFormatD };
+        } else {
+            throw new Error(`无法识别格式：以|分割后得到${parts.length}段（期望7段或8段），且不包含"----"或段数不符`);
+        }
     }
 
     function renderResult() {
         const raw = document.getElementById('inputText').value.trim();
         const outputDiv = document.getElementById('outputArea');
+        const detectedSpan = document.getElementById('detectedFormat');
         if (!raw) {
             outputDiv.innerHTML = '<span style="color:#64748b;">请输入字符串...</span>';
             outputDiv.classList.remove('error');
+            detectedSpan.innerHTML = '⚙️ 等待输入...';
             return;
         }
         try {
-            const labeled = parseAndAddLabels(raw);
+            const { fields, formatName, labels } = autoParse(raw);
+            const labeledParts = labels.map((label, idx) => `${label}：${fields[idx]}`);
+            const result = labeledParts.join("----");
+            detectedSpan.innerHTML = `✅ 识别为：${formatName}`;
             outputDiv.innerHTML = `
                 <div><span class="label">✅ 解析成功：</span></div>
-                <pre style="margin:8px 0 0; background:#eef2ff; padding:12px; border-radius:12px; overflow-x:auto;">${escapeHtml(labeled)}</pre>
+                <pre style="margin:8px 0 0; background:#eef2ff; padding:12px; border-radius:12px; overflow-x:auto;">${escapeHtml(result)}</pre>
                 <button id="copyBtn" style="margin-top:12px; background:#10b981; padding:6px 16px;">📋 复制结果</button>
             `;
             outputDiv.classList.remove('error');
             const copyBtn = document.getElementById('copyBtn');
             if (copyBtn) {
                 copyBtn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(labeled).then(() => {
+                    navigator.clipboard.writeText(result).then(() => {
                         copyBtn.textContent = '✅ 已复制';
                         setTimeout(() => copyBtn.textContent = '📋 复制结果', 1500);
                     }).catch(() => alert('复制失败，请手动复制'));
                 });
             }
         } catch (err) {
+            detectedSpan.innerHTML = '❌ 格式识别失败';
             outputDiv.innerHTML = `<span style="color:#dc2626;">❌ 解析错误：${escapeHtml(err.message)}</span>`;
             outputDiv.classList.add('error');
         }
@@ -144,6 +242,7 @@
         document.getElementById('inputText').value = '';
         document.getElementById('outputArea').innerHTML = '<span style="color:#64748b;">等待解析...</span>';
         document.getElementById('outputArea').classList.remove('error');
+        document.getElementById('detectedFormat').innerHTML = '⚙️ 等待输入...';
     }
 
     function escapeHtml(str) {
@@ -157,10 +256,6 @@
 
     document.getElementById('parseBtn').addEventListener('click', renderResult);
     document.getElementById('clearBtn').addEventListener('click', clearInput);
-
-    const example = "AmitDas26352060----Udba!qNhTlp9----SimoneRauda71@hotmail.com----ol4tfH58|ED0my54q@wmhotmail.com|VcnM7H----J3DDXZXN24J6PZRU----0e58013a1bce2de313958d31320010aad0e4b2eb";
-    document.getElementById('inputText').value = example;
-    renderResult();
 </script>
 </body>
 </html>
