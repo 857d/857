@@ -73,22 +73,12 @@ IOS软件下载
 
 安卓
 =================
+加速器：   https://www.ilanzou.com/s/LIf6zDTD?code=3957
 
-软件商店 https://uptodown-android.cn.uptodown.com/android
-直接下载这个软件商店
+飞机：      https://www.ilanzou.com/s/MM26zQkP?code=9864
 
----
+推特：      https://www.ilanzou.com/s/ACS6zQfV?code=4165
 
-鸿蒙
-=================
-自己在卓易信或者出境易里下载
+软件商店：https://www.ilanzou.com/s/qv06zQrt?code=4325
 
----
-
-软件名称
-=================
-纸飞机 Telegram 
-
-第三方纸飞机 Nicegram
-
-推特 X
+TikTok：   https://www.ilanzou.com/s/5lk6zQ2t?code=2634
