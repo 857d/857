@@ -68,9 +68,14 @@
     "cover": "/blogs/telegram/06dfe8352073c6bb.png",
     "hidden": false,
     "category": "笔记",
-    "downloadLinks": [],
+    "downloadLinks": [
+      {
+        "name": "蓝奏云",
+        "url": "https://www.ilanzou.com/s/U2c6mXkm?code=4566"
+      }
+    ],
     "passwordProtected": true,
-    "password": "4249"
+    "password": "6261"
   },
   {
     "slug": "857",
